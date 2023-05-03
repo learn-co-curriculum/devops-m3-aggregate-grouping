@@ -1,10 +1,12 @@
-# Aggregate Functions and Grouping
+# Aggregate Functions and Grouping Code-Along
 
 ## Learning Goals
 
-- Use aggregate functions `count`, `sum`, `min`, `max`, and `average`.
-- Use the `GROUP BY` clause to group rows with the same value in one or more columns.
-- Use the `HAVING` clause to select a subset of grouped rows matching a predicate.
+- Use aggregate functions `COUNT`, `SUM`, `MIN`, `MAX`, and `AVG`.
+- Use the `GROUP BY` clause to group rows with the same value in one or more
+  columns.
+- Use the `HAVING` clause to select a subset of grouped rows matching a
+  predicate.
 
 ## Introduction
 
@@ -18,17 +20,20 @@ ORDER BY [comma-separated list of columns]
 LIMIT [count];
 ```
 
-The basic syntax of the `SELECT` statement is enhanced to support aggregate functions and grouping:
+The basic syntax of the `SELECT` statement is enhanced to support aggregate
+functions and grouping:
 
 - The `SELECT` clause may include one or more aggregate function calls.
-- The `GROUP BY` clause is optional.  The clause groups sets of rows that contain the same value
-  within one or more columns.
-- The `HAVING` clause is optional. The clause selects a subset of grouped rows that match a predicate.
+- The `GROUP BY` clause is optional. The clause groups sets of rows that contain
+  the same value within one or more columns.
+- The `HAVING` clause is optional. The clause selects a subset of grouped rows
+  that match a predicate.
 
 ## Table Setup
 
-We will work with the same `pet` table from the previous lesson.  
-The statements to create the table and insert 8 rows is provided below:
+We will work with the same `pet` table from the previous lesson. Copy and paste
+the below statements to create the table and insert 8 rows again to ensure we
+are starting with the same data.
 
 ```sql
 DROP TABLE IF EXISTS pet;
@@ -69,8 +74,7 @@ INSERT INTO pet (id, name, species, breed, age)
 VALUES (8, 'Lulu', 'dog', 'Yorkiepoo', 12);
 ```
 
-
-## Aggregate Functions  (Code Along)
+## Aggregate Functions
 
 SQL provides functions for aggregating values across multiple rows:
 
@@ -79,7 +83,6 @@ SQL provides functions for aggregating values across multiple rows:
 - `MIN(col)` - return the minimum value in column `col`.
 - `MAX(col)` - return the maximum value in column `col`.
 - `AVG(col)` - return the average value in column `col`.
-
 
 <table>
 <tr>
@@ -305,7 +308,6 @@ min max avg
 </td>
 </tr>
 
-
 <tr>
 <td>
 Truncate to display 2 digits after decimal point:
@@ -332,12 +334,10 @@ min max avg
 
 </table>
 
-
-
 ## GROUP BY
 
-The `GROUP BY` clause collects rows with the same value for a column into a group.
-
+The `GROUP BY` clause collects rows with the same value for a column into a
+group.
 
 ```text
 id  name        species	breed	            age
@@ -352,17 +352,15 @@ id  name        species	breed	            age
 8   Lulu        dog     Yorkiepoo           12
 ```
 
-
 For example, grouping the `pet` table by `species` creates three groups of rows:
 
-- cat group: rows with id 1, 2, and 3
-- dog group: rows with id 4, 5, 7, and 8
-- fish group: row with id 6
+- cat group: rows with id 1, 2, and 3.
+- dog group: rows with id 4, 5, 7, and 8.
+- fish group: row with id 6.
 
-We often use the `GROUP BY` clause with an aggregate function
-to calculate a measure for each group.  The `SELECT` clause
-should list the grouped column, along with one or more aggregate
-functions.
+We often use the `GROUP BY` clause with an aggregate function to calculate a
+measure for each group. The `SELECT` clause should list the grouped column,
+along with one or more aggregate functions.
 
 NOTE: Your row order may differ from the output displayed below.
 
@@ -402,7 +400,6 @@ fish    1
 </td>
 </tr>
 
-
 <tr>
 <td>
 Sort the species count
@@ -430,8 +427,6 @@ dog     4
 
 </td>
 </tr>
-
-
 
 <tr>
 <td>
@@ -493,7 +488,6 @@ age count
 
 </td>
 </tr>
-
 
 <tr>
 <td>
@@ -567,19 +561,16 @@ dog     4
 
 </table>
 
-
-
 ## HAVING
 
-The `WHERE` clause is used to select a subset of table rows that
-match a predicate.  However, the `WHERE` clause can't be used
-on the value produced by an aggregate function.
-Instead, we use the `HAVING` clause to test  an aggregate function result.
-Groups that match the `HAVING` predicate will be included in the result.
+The `WHERE` clause is used to select a subset of table rows that match a
+predicate. However, the `WHERE` clause can't be used on the value produced by an
+aggregate function. Instead, we use the `HAVING` clause to test an aggregate
+function result. Groups that match the `HAVING` predicate will be included in
+the result.
 
-
-NOTE: The aggregate function call must be used in the `HAVING` clause,
-i.e. `COUNT(*)`.  Do not use the column label `count` shown in the output.
+NOTE: The aggregate function call _must_ be used in the `HAVING` clause, i.e.
+`COUNT(*)`. Do not use the column label `count` shown in the output.
 
 <table>
 <tr>
@@ -646,7 +637,6 @@ cat     3
 </td>
 </tr>
 
-
 <tr>
 <td>
 
@@ -676,7 +666,6 @@ dog     4
 
 </td>
 </tr>
-
 
 <tr>
 <td>
@@ -708,18 +697,12 @@ cat     3
 </td>
 </tr>
 
-
 </table>
-
-
-
 
 ### Common errors
 
-
-If you omit the grouped column from the `SELECT` statement,
-the query result is not useful since we don't know which group
-a particular value corresponds to:
+If you omit the grouped column from the `SELECT` statement, the query result is
+not useful since we don't know which group a particular value corresponds to:
 
 <table>
 <tr>
@@ -739,7 +722,7 @@ Omit species in SELECT clause
 <code>
 SELECT COUNT(*)
 FROM pet
-GROUP BY species
+GROUP BY species;
 </code>
 </pre>
 
@@ -758,14 +741,11 @@ count
 </tr>
 </table>
 
-
-Another common error is to list a column along with an aggregate
-function in the `SELECT` clause without specifying a `GROUP BY`
-clause for that same column.
+Another common error is to list a column along with an aggregate function in the
+`SELECT` clause without specifying a `GROUP BY` clause for that same column.
 
 The query below will result in an error because it is missing
 `GROUP BY species`:
-
 
 <table>
 <tr>
@@ -799,17 +779,12 @@ ERROR:  column "pet.species" must appear in the GROUP BY clause
 </tr>
 </table>
 
-
-
-
 ## Conclusion
 
-An aggregate function is used to compute a measure
-across one or more groups of rows.  The `GROUP BY`
-clause groups a set of rows containing the same value in
-one or more columns.  The `HAVING` clause restricts the
-result to those groups that match a predicate.
-
+An aggregate function is used to compute a measure across one or more groups of
+rows. The `GROUP BY` clause groups a set of rows containing the same value in
+one or more columns. The `HAVING` clause restricts the result to those groups
+that match a predicate.
 
 ## Resources
 
